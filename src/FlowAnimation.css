@@ -1,0 +1,27 @@
+@keyframes redFlow {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(600px); /* Adjust to match flow length */
+    }
+  }
+  
+  @keyframes blueFlow {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-600px); /* Opposite direction */
+    }
+  }
+  
+  .animate-red-arrow {
+    animation: redFlow 4s linear infinite;
+    position: absolute;
+  }
+  
+  .animate-blue-arrow {
+    animation: blueFlow 4s linear infinite;
+    position: absolute;
+  }
