@@ -1,17 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
-import { HiOutlineMenu, HiOutlineX, HiArrowCircleDown, HiArrowCircleRight, HiFolder} from "react-icons/hi";
+import {
+  HiOutlineMenu,
+  HiOutlineX,
+  HiArrowCircleDown,
+  HiArrowCircleRight,
+  HiFolder,
+} from "react-icons/hi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useFloating, offset, flip, shift, autoUpdate } from '@floating-ui/react';
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  autoUpdate,
+} from "@floating-ui/react";
+import useLivechartData from "../context/LivechartContext";
+import { useNavigate } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 20;
 
-const emsData = [
+export const emsData = [
   {
     roomName: "Excipient Dispensing",
     description: "MM/GF/RN/101",
     parentArea: "Verve",
     deviceId: 1,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 31.36,
     humidity: 50.48,
@@ -23,7 +37,7 @@ const emsData = [
     description: "MM/GF/RN/102",
     parentArea: "Verve",
     deviceId: 2,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 10.09,
     temp: 31.36,
     humidity: 50.48,
@@ -35,7 +49,7 @@ const emsData = [
     description: "MM/GF/RN/103",
     parentArea: "Verve",
     deviceId: 3,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 20.07,
     temp: 31.36,
     humidity: 50.48,
@@ -47,7 +61,7 @@ const emsData = [
     description: "MM/GF/RN/104",
     parentArea: "Verve",
     deviceId: 4,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 17.05,
     temp: 31.36,
     humidity: 50.48,
@@ -59,7 +73,7 @@ const emsData = [
     description: "MM/GF/RN/105",
     parentArea: "Verve",
     deviceId: 5,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 7.03,
     temp: 31.36,
     humidity: 50.48,
@@ -71,7 +85,7 @@ const emsData = [
     description: "MM/GF/RN/106",
     parentArea: "Verve",
     deviceId: 6,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 12.04,
     temp: 31.36,
     humidity: 50.48,
@@ -83,7 +97,7 @@ const emsData = [
     description: "MM/GF/RN/107",
     parentArea: "Verve",
     deviceId: 7,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 10.08,
     temp: 31.36,
     humidity: 50.48,
@@ -95,7 +109,7 @@ const emsData = [
     description: "MM/GF/RN/108",
     parentArea: "Verve",
     deviceId: 8,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 21.03,
     temp: 31.36,
     humidity: 50.48,
@@ -107,7 +121,7 @@ const emsData = [
     description: "MM/GF/RN/109",
     parentArea: "Verve",
     deviceId: 9,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 10.05,
     temp: 31.36,
     humidity: 50.48,
@@ -119,7 +133,7 @@ const emsData = [
     description: "MM/GF/RN/110",
     parentArea: "Verve",
     deviceId: 10,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 8.09,
     temp: 31.36,
     humidity: 50.48,
@@ -131,8 +145,8 @@ const emsData = [
     description: "MM/GF/RN/001",
     parentArea: "Verve",
     deviceId: 11,
-    doorStatus:"Open",
-    pressure: 7.10,
+    doorStatus: "Open",
+    pressure: 7.1,
     temp: 31.36,
     humidity: 50.48,
     dewpoint: 19.82,
@@ -143,7 +157,7 @@ const emsData = [
     description: "MM/GF/RN/002",
     parentArea: "Verve",
     deviceId: 12,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 31.08,
     temp: 31.36,
     humidity: 50.48,
@@ -155,7 +169,7 @@ const emsData = [
     description: "MM/GF/RN/003",
     parentArea: "Verve",
     deviceId: 13,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 10.04,
     temp: 31.36,
     humidity: 50.48,
@@ -167,7 +181,7 @@ const emsData = [
     description: "MM/GF/RN/004",
     parentArea: "Verve",
     deviceId: 14,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 22.02,
     temp: 31.36,
     humidity: 50.48,
@@ -179,7 +193,7 @@ const emsData = [
     description: "MM/GF/RN/005",
     parentArea: "Verve",
     deviceId: 15,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 6.04,
     temp: 31.36,
     humidity: 50.48,
@@ -188,10 +202,10 @@ const emsData = [
   },
   {
     roomName: "ED-15",
-    description: "MM/GF/RN/006",    
+    description: "MM/GF/RN/006",
     parentArea: "Verve",
     deviceId: 16,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 9.07,
     temp: 31.36,
     humidity: 50.48,
@@ -203,7 +217,7 @@ const emsData = [
     description: "MM/GF/RN/007",
     parentArea: "Verve",
     deviceId: 17,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 31.36,
     humidity: 50.48,
@@ -215,7 +229,7 @@ const emsData = [
     description: "MM/GF/RN/008",
     parentArea: "Verve",
     deviceId: 18,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 15.07,
     temp: 31.36,
     humidity: 50.48,
@@ -227,8 +241,8 @@ const emsData = [
     description: "MM/GF/RN/009",
     parentArea: "Verve",
     deviceId: 19,
-    doorStatus:"Close",
-    pressure: 9.40,
+    doorStatus: "Close",
+    pressure: 9.4,
     temp: 31.36,
     humidity: 50.48,
     dewpoint: 19.82,
@@ -239,7 +253,7 @@ const emsData = [
     description: "MM/GF/RN/010",
     parentArea: "Verve",
     deviceId: 20,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 7.05,
     temp: 31.36,
     humidity: 50.48,
@@ -251,7 +265,7 @@ const emsData = [
     description: "MM/GF/RN/011",
     parentArea: "Sun pharma",
     deviceId: 21,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 20.05,
     temp: 31.36,
     humidity: 50.48,
@@ -263,8 +277,8 @@ const emsData = [
     description: "MM/GF/RN/012",
     parentArea: "Verve",
     deviceId: 22,
-    doorStatus:"Open",
-    pressure: 27.50,
+    doorStatus: "Open",
+    pressure: 27.5,
     temp: 31.36,
     humidity: 50.48,
     dewpoint: 19.82,
@@ -275,7 +289,7 @@ const emsData = [
     description: "MM/GF/RN/013",
     parentArea: "Sun pharma",
     deviceId: 23,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 16.04,
     temp: 31.36,
     humidity: 50.48,
@@ -287,7 +301,7 @@ const emsData = [
     description: "MM/GF/RN/014",
     parentArea: "Verve",
     deviceId: 24,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 20.11,
     temp: 35.13,
     humidity: 76.93,
@@ -299,7 +313,7 @@ const emsData = [
     description: "MM/GF/RN/015",
     parentArea: "Verve",
     deviceId: 25,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 9.17,
     temp: 35.13,
     humidity: 76.93,
@@ -311,7 +325,7 @@ const emsData = [
     description: "MM/GF/RN/016",
     parentArea: "Verve",
     deviceId: 26,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 23.01,
     temp: 31.36,
     humidity: 50.48,
@@ -323,7 +337,7 @@ const emsData = [
     description: "MM/GF/RN/017",
     parentArea: "Verve",
     deviceId: 27,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -335,7 +349,7 @@ const emsData = [
     description: "MM/GF/RN/018",
     parentArea: "Verve",
     deviceId: 28,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -347,7 +361,7 @@ const emsData = [
     description: "MM/GF/RN/019",
     parentArea: "Verve",
     deviceId: 29,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 31.36,
     humidity: 50.48,
@@ -359,7 +373,7 @@ const emsData = [
     description: "MM/GF/RN/020",
     parentArea: "Verve",
     deviceId: 30,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -371,7 +385,7 @@ const emsData = [
     description: "MM/GF/RN/021",
     parentArea: "Sun pharma",
     deviceId: 31,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -383,7 +397,7 @@ const emsData = [
     description: "MM/GF/RN/022",
     parentArea: "Verve",
     deviceId: 32,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -395,7 +409,7 @@ const emsData = [
     description: "MM/GF/RN/023",
     parentArea: "Verve",
     deviceId: 33,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -407,7 +421,7 @@ const emsData = [
     description: "MM/GF/RN/024",
     parentArea: "Verve",
     deviceId: 34,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 31.36,
     humidity: 50.48,
@@ -419,7 +433,7 @@ const emsData = [
     description: "MM/GF/RN/025",
     parentArea: "Verve",
     deviceId: 35,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -431,7 +445,7 @@ const emsData = [
     description: "MM/GF/RN/026",
     parentArea: "Verve",
     deviceId: 36,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -443,7 +457,7 @@ const emsData = [
     description: "MM/GF/RN/027",
     parentArea: "Verve",
     deviceId: 37,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -455,7 +469,7 @@ const emsData = [
     description: "MM/GF/RN/028",
     parentArea: "Verve",
     deviceId: 38,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -467,7 +481,7 @@ const emsData = [
     description: "MM/GF/RN/029",
     parentArea: "Verve",
     deviceId: 39,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 31.36,
     humidity: 50.48,
@@ -479,7 +493,7 @@ const emsData = [
     description: "MM/GF/RN/030",
     parentArea: "Verve",
     deviceId: 40,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -491,7 +505,7 @@ const emsData = [
     description: "MM/GF/RN/031",
     parentArea: "Verve",
     deviceId: 41,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -503,7 +517,7 @@ const emsData = [
     description: "MM/GF/RN/032",
     parentArea: "Verve",
     deviceId: 42,
-    doorStatus:"Close",
+    doorStatus: "Close",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -515,7 +529,7 @@ const emsData = [
     description: "MM/GF/RN/033",
     parentArea: "Verve",
     deviceId: 43,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -527,7 +541,7 @@ const emsData = [
     description: "MM/GF/RN/034",
     parentArea: "Verve",
     deviceId: 44,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -539,7 +553,7 @@ const emsData = [
     description: "MM/GF/RN/035",
     parentArea: "Verve",
     deviceId: 45,
-    doorStatus:"Open",
+    doorStatus: "Open",
     pressure: 30.01,
     temp: 35.13,
     humidity: 76.93,
@@ -551,7 +565,8 @@ const emsData = [
 ];
 
 export default function EmsPanel() {
-
+  const { setInitialValues } = useLivechartData();
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [isSidebarOpen, setSidebarOpen] = useState();
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -565,11 +580,11 @@ export default function EmsPanel() {
 
   const handlePrev = () => setPage((p) => Math.max(p - 1, 1));
   const handleNext = () => setPage((p) => Math.min(p + 1, totalPages));
-  
+
   // Expandable list component
   const EMSExpandableList = ({ data, onSelectRoom }) => {
     const parentAreas = [...new Set(data.map((item) => item.parentArea))];
-  
+
     const [expanded, setExpanded] = useState(() => {
       const state = {};
       parentAreas.forEach((parent) => {
@@ -577,22 +592,22 @@ export default function EmsPanel() {
       });
       return state;
     });
-  
+
     const toggleExpand = (parentArea) => {
       setExpanded((prev) => ({
         ...prev,
         [parentArea]: !prev[parentArea],
       }));
     };
-  
+
     return (
       <div className="p-2 space-y-3">
         {parentAreas.map((parent) => {
           const children = data
             .filter((item) => item.parentArea === parent)
             .map((item) => item.roomName);
-  
-          return (  
+
+          return (
             <div key={parent}>
               <div
                 className="cursor-pointer font-semibold text-whitecolor flex items-center justify-between"
@@ -605,7 +620,7 @@ export default function EmsPanel() {
                   <HiArrowCircleRight size={20} />
                 )}
               </div>
-  
+
               {expanded[parent] && (
                 <ul className="ml-4 mt-1 list-disc text-sm text-whitecolor">
                   {[...new Set(children)].map((child, index) => (
@@ -638,32 +653,28 @@ export default function EmsPanel() {
   // Floating menu per row
   function RowMenu({ idx, openMenuIndex, setOpenMenuIndex }) {
     const menuRef = useRef(null);
-  
-    const {
-      refs,
-      floatingStyles,
-      update,
-    } = useFloating({
-      placement: 'bottom-end',
+
+    const { refs, floatingStyles, update } = useFloating({
+      placement: "bottom-end",
       middleware: [offset(6), flip(), shift({ padding: 8 })],
     });
-  
+
     useEffect(() => {
       if (!refs.reference.current || !refs.floating.current) return;
       return autoUpdate(refs.reference.current, refs.floating.current, update);
     }, [refs.reference, refs.floating, update]);
-  
+
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (menuRef.current && !menuRef.current.contains(event.target)) {
           setOpenMenuIndex(null);
         }
       };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []); 
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-  
     return (
       <td className="px-4 py-2 text-sm relative z-50">
         <button
@@ -673,7 +684,7 @@ export default function EmsPanel() {
         >
           <BsThreeDotsVertical className="w-5 h-5" />
         </button>
-  
+
         {openMenuIndex === idx && (
           <div
             ref={(node) => {
@@ -686,7 +697,25 @@ export default function EmsPanel() {
             <button className="w-full text-left px-4 py-2 hover:bg-highlightcolor">
               Report
             </button>
-            <button className="w-full text-left px-4 py-2 hover:bg-highlightcolor">
+            <button
+              onClick={() => {
+                // update context with the row’s data
+                setInitialValues({
+                  Pressure: emsData[idx].pressure,
+                  Temperature: emsData[idx].temp,
+                  Humidity: emsData[idx].humidity,
+                  Room: emsData[idx].roomName,
+                  Description: emsData[idx].description,
+                  ParentArea: emsData[idx].parentArea,
+                  DeviceID: emsData[idx].deviceId,
+                  DoorStatus: emsData[idx].doorStatus,
+                });
+
+                // navigate to livechart
+                navigate("/livechart");
+              }}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700"
+            >
               Chart
             </button>
           </div>
@@ -695,7 +724,7 @@ export default function EmsPanel() {
     );
   }
 
-  return(
+  return (
     <div className="flex">
       {/* Sidebar */}
       <aside
@@ -710,7 +739,7 @@ export default function EmsPanel() {
           {isSidebarOpen ? (
             <HiOutlineX size={26} className="text-whitecolor" />
           ) : (
-            <HiFolder size={26} className="text-backgroundcolor" /> 
+            <HiFolder size={26} className="text-backgroundcolor" />
           )}
         </button>
 
