@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { emsData } from "../pages/EMSPanel"; // import EMSPanel data
+import { emsData } from "../pages/Emspanel"; // import EMSPanel data
 
 const LivechartContext = createContext();
 
