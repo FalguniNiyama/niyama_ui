@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 const handleFabClick = () => {
-  alert("➕ Add New Device Clicked!");
+  alert("➕ Add New Department Clicked!");
 };
 
 const Departments = () => {
@@ -60,18 +61,10 @@ const Departments = () => {
 
   return (
     <div className="p-4">
-      <input
-        type="text"
-        placeholder="Search..."
-        className="border px-3 py-2 mb-3 w-full rounded"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-
-      <table className="w-full border-collapse border">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border p-2">
+      <table className="min-w-full border border-secondary300">
+        <thead>
+          <tr className="bg-white">
+            <th className="p-2 border-b accent-backgroundcolor">
               <input
                 type="checkbox"
                 checked={selectAll}
@@ -86,10 +79,21 @@ const Departments = () => {
             <th className="border p-2">Created Date</th>
             <th className="border p-2">Modified Date</th>
           </tr>
+          <tr>
+            <td colSpan={8} className="p-2">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border px-3 py-2 mb-3 w-full rounded"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </td>
+          </tr>
         </thead>
         <tbody>
           {filteredData.map((row, index) => (
-            <tr key={index} className="text-center">
+            <tr key={index} className="bg-secondary300">
               <td className="border p-2">
                 <input
                   type="checkbox"
@@ -100,18 +104,14 @@ const Departments = () => {
               <td className="border p-2">{row.name}</td>
               <td className="border p-2">{row.inchargeOf}</td>
               <td className="border p-2">{row.account}</td>
-              <td className="border p-2">
-                {row.active ? (
-                  <span className="text-green-600 font-bold">✔</span>
-                ) : (
-                  <span className="text-red-600 font-bold">✘</span>
-                )}
+              <td className="p-2 border-t">
+                {row.active ? <FaCheck className="text-greencolor" /> : null}
               </td>
-              <td className="border p-2">
+              <td className="p-2 border-t">
                 {row.deleted ? (
-                  <span className="text-green-600 font-bold">✔</span>
+                  <FaCheck className="text-greencolor" />
                 ) : (
-                  <span className="text-red-600 font-bold">✘</span>
+                  <FaTimes className="text-redcolor" />
                 )}
               </td>
               <td className="border p-2">{row.createdDate}</td>
