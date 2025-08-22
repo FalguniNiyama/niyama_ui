@@ -3,7 +3,7 @@ import { FaCheck, FaTimes, FaPlus } from "react-icons/fa";
 
 const Devices = () => {
   const [search, setSearch] = useState("");
-  const [selectedDevices, setSelectedDevices] = useState([]); // ✅ Track selected checkboxes
+  const [selectedDevices, setSelectedDevices] = useState([]); // Track selected checkboxes
 
   const devicedata = [
     {
@@ -50,7 +50,7 @@ const Devices = () => {
     },
   ];
 
-  // Filter by search
+  // Filter by search (global filter across name, serialId, actualId)
   const filteredDevices = devicedata.filter(
     (d) =>
       d.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -58,14 +58,16 @@ const Devices = () => {
       d.actualId.toLowerCase().includes(search.toLowerCase())
   );
 
-  // ✅ Toggle single checkbox
+  // Toggle single checkbox
   const handleCheckboxChange = (id) => {
     setSelectedDevices((prev) =>
-      prev.includes(id) ? prev.filter((deviceId) => deviceId !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((deviceId) => deviceId !== id)
+        : [...prev, id]
     );
   };
 
-  // ✅ Toggle "Select All"
+  // Toggle "Select All"
   const handleSelectAll = () => {
     if (selectedDevices.length === filteredDevices.length) {
       setSelectedDevices([]); // Unselect all
@@ -80,26 +82,19 @@ const Devices = () => {
 
   return (
     <div className="p-6">
-      {/* Search Bar */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="border px-3 py-2 rounded w-full"
-        />
-      </div>
-
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300">
           <thead className="bg-gray-100">
+            {/* Column Headers */}
             <tr>
               <th className="px-3 py-2 border">
                 <input
                   type="checkbox"
-                  checked={selectedDevices.length === filteredDevices.length && filteredDevices.length > 0}
+                  checked={
+                    selectedDevices.length === filteredDevices.length &&
+                    filteredDevices.length > 0
+                  }
                   onChange={handleSelectAll}
                 />
               </th>
@@ -115,42 +110,64 @@ const Devices = () => {
               <th className="px-3 py-2 border">Created Date</th>
               <th className="px-3 py-2 border">Modified Date</th>
             </tr>
+
+            {/* Search Row (Global Search) */}
+            <tr>
+              <td colSpan={24} className="p-2">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border px-3 py-2 mb-3 w-full rounded"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              </td>
+            </tr>
           </thead>
+
           <tbody>
-            {filteredDevices.map((device) => (
-              <tr key={device.id} className="text-center">
-                <td className="px-3 py-2 border">
-                  <input
-                    type="checkbox"
-                    checked={selectedDevices.includes(device.id)}
-                    onChange={() => handleCheckboxChange(device.id)}
-                  />
+            {filteredDevices.length > 0 ? (
+              filteredDevices.map((device) => (
+                <tr key={device.id} className="text-center">
+                  <td className="px-3 py-2 border">
+                    <input
+                      type="checkbox"
+                      checked={selectedDevices.includes(device.id)}
+                      onChange={() => handleCheckboxChange(device.id)}
+                    />
+                  </td>
+                  <td className="px-3 py-2 border">{device.name}</td>
+                  <td className="px-3 py-2 border">{device.description}</td>
+                  <td className="px-3 py-2 border">{device.serialId}</td>
+                  <td className="px-3 py-2 border">{device.channel}</td>
+                  <td className="px-3 py-2 border">{device.actualId}</td>
+                  <td className="px-3 py-2 border">{device.parentArea}</td>
+                  <td className="px-3 py-2 border">{device.account}</td>
+                  <td className="px-3 py-2 border">
+                    {device.active ? (
+                      <FaCheck className="text-green-500 inline" />
+                    ) : (
+                      <FaTimes className="text-red-500 inline" />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 border">
+                    {device.deleted ? (
+                      <FaCheck className="text-green-500 inline" />
+                    ) : (
+                      <FaTimes className="text-red-500 inline" />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 border">{device.createdDate}</td>
+                  <td className="px-3 py-2 border">{device.modifiedDate}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="12" className="py-4 text-center text-gray-500">
+                  No devices found.
                 </td>
-                <td className="px-3 py-2 border">{device.name}</td>
-                <td className="px-3 py-2 border">{device.description}</td>
-                <td className="px-3 py-2 border">{device.serialId}</td>
-                <td className="px-3 py-2 border">{device.channel}</td>
-                <td className="px-3 py-2 border">{device.actualId}</td>
-                <td className="px-3 py-2 border">{device.parentArea}</td>
-                <td className="px-3 py-2 border">{device.account}</td>
-                <td className="px-3 py-2 border">
-                  {device.active ? (
-                    <FaCheck className="text-green-500 inline" />
-                  ) : (
-                    <FaTimes className="text-red-500 inline" />
-                  )}
-                </td>
-                <td className="px-3 py-2 border">
-                  {device.deleted ? (
-                    <FaCheck className="text-green-500 inline" />
-                  ) : (
-                    <FaTimes className="text-red-500 inline" />
-                  )}
-                </td>
-                <td className="px-3 py-2 border">{device.createdDate}</td>
-                <td className="px-3 py-2 border">{device.modifiedDate}</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
