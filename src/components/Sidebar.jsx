@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaHome, FaCogs, FaChartLine, FaFileAlt, FaThumbsUp, FaUsers, FaMap, FaUsb, FaRegBuilding, FaTabletAlt, FaWrench, FaUserTie, FaCalendarPlus, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaCogs, FaChartLine, FaFileAlt, FaThumbsUp, FaUsers, FaMap, FaUsb, FaRegBuilding, FaTabletAlt, 
+  FaWrench, FaUserTie, FaCalendarPlus, FaUser, FaSignOutAlt, FaSlidersH, FaMapPin, FaTh, FaCrosshairs } from "react-icons/fa";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,12 @@ const menuItems = [
       { name: "Departments", icon: FaRegBuilding, path: "/settings/departments" },
       { name: "Devices", icon: FaTabletAlt, path: "/settings/devices" },
       { name: "Device Settings", icon: FaWrench, path: "/settings/devicesettings" },
+      { name: "PID Settings", icon: FaSlidersH, path: "/settings/pidsettings"},
+      { name: "AHU Schedule", icon: FaMapPin, path: "/settings/ahuschedule"},
+      { name: "VFD Schedule", icon: FaMapPin, path: "/settings/vfdschedule"},
+      { name: "Cascade Setting", icon: FaTh, path: "/settings/cascadesetting"},
+      { name: "Output Mapping", icon: FaMapPin, path: "/settings/outputmapping"},
+      { name: "Calibrations", icon: FaCrosshairs, path: "/settings/calibrations"},
       { name: "Roles", icon: FaUserTie, path: "/settings/roles" },
       { name: "Shifts", icon: FaCalendarPlus, path: "/settings/shifts" },
       { name: "Users", icon: FaUser, path: "/settings/users" },

@@ -13,11 +13,17 @@ import Channels from './pages/Channels';
 import Departments from './pages/Departments';
 import Devices from './pages/Devices';
 import Devicesettings from './pages/Devicesettings';
+import PIDsettings from './pages/PIDsettings';
+import Cascadesetting from './pages/Cascadesetting';
+import Outputmapping from './pages/OutputMapping';
+import Calibrations from './pages/Calibrations';
 import Roles from './pages/Roles';
 import Shifts from './pages/Shifts';
 import Users from './pages/Users';
 
 import AppProviders from './provider/AppProviders';
+import AHUSchedule from './pages/AHUSchedule';
+import VFDSchedule from './pages/VFDSchedule';
 
 
 function App() {
@@ -41,6 +47,12 @@ function App() {
                 <Route path="/settings/departments" element={<Departments />} />
                 <Route path="/settings/devices" element={<Devices />} />
                 <Route path="/settings/devicesettings" element={<Devicesettings />} />
+                <Route path="/settings/pidsettings" element={<PIDsettings />} />
+                <Route path="/settings/ahuschedule" element={<AHUSchedule />} />
+                <Route path="/settings/vfdschedule" element={<VFDSchedule />} />
+                <Route path="/settings/cascadesetting" element={<Cascadesetting />} />
+                <Route path="/settings/outputmapping" element={<Outputmapping />} />
+                <Route path="/settings/calibrations" element={<Calibrations />} />
                 <Route path="/settings/roles" element={<Roles />} />
                 <Route path="/settings/shifts" element={<Shifts />} />
                 <Route path="/settings/users" element={<Users />} />
