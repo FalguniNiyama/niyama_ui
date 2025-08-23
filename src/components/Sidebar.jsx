@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaHome, FaCogs, FaChartLine, FaFileAlt, FaThumbsUp, FaUsers, FaMap, FaUsb, FaRegBuilding, FaTabletAlt, FaWrench, FaUserTie, FaCalendarPlus, FaUser  } from "react-icons/fa";
+import { FaHome, FaCogs, FaChartLine, FaFileAlt, FaThumbsUp, FaUsers, FaMap, FaUsb, FaRegBuilding, FaTabletAlt, FaWrench, FaUserTie, FaCalendarPlus, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +28,9 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false); // for mobile
-  const [isCollapsed, setIsCollapsed] = useState(true); // default collapsed
-  const [isPinned, setIsPinned] = useState(false); // new: user-controlled pinning
+  const [isOpen, setIsOpen] = useState(false); 
+  const [isCollapsed, setIsCollapsed] = useState(true); 
+  const [isPinned, setIsPinned] = useState(false); 
   const [expanded, setExpanded] = useState(null);
   const navigate = useNavigate();
   const { setPageTitle } = usePage();
@@ -39,9 +39,21 @@ export default function Sidebar() {
     if (item.path) {
       setPageTitle(item.name);
       navigate(item.path, { replace: true });
-      setIsOpen(false); // for mobile
+      setIsOpen(false); 
     } else if (item.children) {
       setExpanded(prev => (prev === item.name ? null : item.name));
+    }
+  };
+
+  const handleLogout = () => {
+    // 🔹 clear auth/session logic
+    localStorage.clear();
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      setIsOpen(false);
+      navigate('/login', { replace: true });
+    }else{
+      setIsOpen(false);
     }
   };
 
@@ -53,13 +65,14 @@ export default function Sidebar() {
 
       {isOpen && <div className="fixed inset-0 bg-balckcolor40 z-40 md:hidden" onClick={() => setIsOpen(false)} />}
 
-      <aside className={`fixed top-0 left-0 h-full bg-backgroundcolor text-whitecolor shadow z-50 transition-all duration-300
+      <aside className={`fixed top-0 left-0 h-full flex flex-col bg-backgroundcolor text-whitecolor shadow z-50 transition-all duration-300
         ${isOpen ? "translate-x-0" : "-translate-x-full"} 
         md:translate-x-0 md:static
         ${isCollapsed ? "w-16" : "w-64"}`}
         onMouseEnter={() => { if (!isPinned) setIsCollapsed(false); }}
         onMouseLeave={() => { if (!isPinned) setIsCollapsed(true); }}>
-        
+
+        {/* Header */}
         <div className="flex justify-between items-center p-4 border-b">
           {!isCollapsed && <span className="font-bold text-lg">Niyama</span>}
           <button onClick={() => {
@@ -73,7 +86,8 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav className="p-4 space-y-2">
+        {/* Menu items */}
+        <nav className="p-4 space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-secondary600 scrollbar-track-backgroundcolor">
           {menuItems.map((item) => (
             <div key={item.name}>
               <div
@@ -103,6 +117,17 @@ export default function Sidebar() {
             </div>
           ))}
         </nav>
+
+        {/* 🔹 Logout Button at Bottom */}
+        <div className="p-4 border-t">
+          <div
+            className="flex items-center space-x-3 p-2 text-sm hover:bg-darkgraycolor rounded cursor-pointer"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt className="h-5 w-5" />
+            {!isCollapsed && <span>Logout</span>}
+          </div>
+        </div>
       </aside>
     </div>
   );

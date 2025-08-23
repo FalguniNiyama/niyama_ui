@@ -20,17 +20,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
-  const handleLogout = () => {
-    const confirmed = window.confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      setIsOpen(false);
-      navigate('/login', { replace: true });
-    }else{
-      setIsOpen(false);
-    }
-  };
-
   return (
     <header className="bg-backgroundcolor text-whitecolor shadow px-6 py-3 flex justify-between items-center">
      
@@ -51,7 +40,7 @@ export default function Navbar() {
          <FiUser className="w-4 h-4 text-secondary600" />
         </button>
 
-      {isOpen && (
+      {/* {isOpen && (
         <div className="absolute right-0 mt-2 w-40 top-[40px] bg-backgroundcolor shadow-md rounded-md py-1 z-10">
           <button
             className="w-full flex items-center px-4 py-2 text-sm text-whitecolor"
@@ -61,7 +50,7 @@ export default function Navbar() {
             Logout
           </button>
         </div>
-          )}
+          )} */}
     </div>
 </div>
 </header>
