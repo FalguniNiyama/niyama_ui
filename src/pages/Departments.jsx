@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
-const handleFabClick = () => {
-  alert("➕ Add New Department Clicked!");
-};
-
 const Departments = () => {
   const [search, setSearch] = useState("");
   const [selectedRows, setSelectedRows] = useState([]); // track selected rows
   const [selectAll, setSelectAll] = useState(false); // track header checkbox
+  const [open, setOpen] = useState(false);
 
   const DepartmentsData = [
     {
@@ -122,11 +119,57 @@ const Departments = () => {
       </table>
 
       <button
-        onClick={handleFabClick}
+        onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-highlightcolor transition"
       >
         <FaPlus size={20} />
       </button>
+
+      {open && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-[600px]">
+            <h2 className="text-xl font-bold mb-4">AddDepartment</h2>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block mb-1">Name</label>
+                <input
+                  type="text"
+                  className="w-full border rounded p-2"
+                  placeholder="Name"
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Account</label>
+                <p className="mt-2">Verve Human Care Laboratories</p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="block mb-1">Incharge Of</label>
+              <select className="w-full border rounded p-2">
+                <option>Select Incharge</option>
+              </select>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-darkgraycolor text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-backgroundcolor text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

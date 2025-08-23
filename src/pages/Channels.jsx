@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
-const handleFabClick = () => {
-  alert("➕ Add New Channel Clicked!");
-};
-
 const Channels = () => {
   const [search, setSearch] = useState("");
   const [selectedRows, setSelectedRows] = useState([]); // track selected rows
   const [selectAll, setSelectAll] = useState(false); // track header checkbox
+  const [open, setOpen] = useState(false);
 
   const channelsData = [
     {
@@ -152,11 +149,177 @@ const Channels = () => {
       </table>
 
       <button
-        onClick={handleFabClick}
+        onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-highlightcolor transition"
       >
         <FaPlus size={20} />
       </button>
+
+      {/* Dialog Overlay */}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          {/* Dialog Box */}
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-6xl p-6 overflow-y-auto max-h-[90vh]">
+            {/* Header */}
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              Add Channel
+            </h2>
+
+            {/* Form Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {/* Name */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="col-span-2">
+                <label className="block text-sm font-medium">Description</label>
+                <textarea
+                  placeholder="Description"
+                  className="mt-1 w-full border rounded p-2"
+                ></textarea>
+              </div>
+
+              {/* Connection Type */}
+              <div>
+                <label className="block text-sm font-medium">Connection Type</label>
+                <select className="mt-1 w-full border rounded p-2">
+                  <option>USB</option>
+                  <option>Ethernet</option>
+                  <option>Serial</option>
+                </select>
+              </div>
+
+              {/* Baudrate */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Baudrate e.g 9600,57600 or Port e.g : 9090,9091
+                </label>
+                <input
+                  type="text"
+                  placeholder="9600,57600"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Port or IP */}
+              <div>
+                <label className="block text-sm font-medium">Port or IP Address</label>
+                <input
+                  type="text"
+                  placeholder="Port or IP"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Databits */}
+              <div>
+                <label className="block text-sm font-medium">Databits</label>
+                 <input
+                  type="number"
+                  placeholder="Databits"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Parity */}
+              <div>
+                <label className="block text-sm font-medium">Parity</label>
+                <select className="mt-1 w-full border rounded p-2">
+                  <option>NONE</option>
+                  <option>ODD</option>
+                  <option>EVEN</option>
+                </select>
+              </div>
+
+              {/* Stopbits */}
+              <div>
+                <label className="block text-sm font-medium">Stopbits</label>
+                <input
+                  type="number"
+                  placeholder="Stopbits"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Calibration */}
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="calibration" />
+                <label htmlFor="calibration">Calibration</label>
+              </div>
+
+              {/* Delay Time */}
+              <div>
+                <label className="block text-sm font-medium">Delay Time</label>
+                <input
+                  type="text"
+                  placeholder="Delay Time"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Alarm Setting Time */}
+              <div>
+                <label className="block text-sm font-medium">Alarm Setting Time</label>
+                <input
+                  type="text"
+                  placeholder="Alarm Setting Time"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Time A Delay */}
+              <div>
+                <label className="block text-sm font-medium">Time A Delay</label>
+                <input
+                  type="text"
+                  placeholder="Time A Delay"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Time B Delay */}
+              <div>
+                <label className="block text-sm font-medium">Time B Delay</label>
+                <input
+                  type="text"
+                  placeholder="Time B Delay"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Account */}
+              <div className="col-span-2">
+                <label className="block text-sm font-medium">Account</label>
+                <p className="mt-2 font-semibold">Verve Human Care Laboratories</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-darkgraycolor text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-backgroundcolor text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

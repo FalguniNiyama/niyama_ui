@@ -53,7 +53,8 @@ const DeviceSettings = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
-
+  const [open, setOpen] = useState(false);
+  
   // Toggle individual checkbox
   const toggleCheckbox = (id) => {
     setSelectedIds((prev) =>
@@ -176,11 +177,89 @@ const DeviceSettings = () => {
 
       {/* Floating Action Button */}
       <button
-        onClick={handleFabClick}
+        onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-highlightcolor transition"
       >
         <FaPlus size={20} />
       </button>
+
+      {/* Dialog Overlay */}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          {/* Dialog Box */}
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-4xl p-6">
+            {/* Header */}
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              Add Device Settings
+            </h2>
+
+            {/* Form Grid */}
+            {/* Room Name */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Room Name</label>
+                <input
+                  type="text"
+                  placeholder="Room Name"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+
+              {/* Buzzer On Time */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Buzzer On Time</label>
+                <input
+                  type="number"
+                  placeholder="Buzzer On Time"
+                  className="mt-1 w-full border rounded p-2"/>
+              </div>
+
+              {/* Buzzer Off Time */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Buzzer Off Time</label>
+                <input
+                  type="number"
+                  placeholder="Buzzer Off Time"
+                  className="mt-1 w-full border rounded p-2"/>
+              </div>
+
+              {/* Display Interval */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Display Interval</label>
+                <input
+                  type="number"
+                  placeholder="Buzzer Off Time"
+                  className="mt-1 w-full border rounded p-2"/>
+              </div>
+
+              {/* Account */}
+              <div className="col-span-1">
+                <label className="block text-sm font-medium">Account</label>
+                <p className="mt-2 font-semibold">
+                  niyama
+                </p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-darkgraycolor text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-backgroundcolor text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

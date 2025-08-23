@@ -2,10 +2,6 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
-const handleFabClick = () => {
-  alert("➕ Add New Account Clicked!");
-};
-
 const data = [
   {
     name: "Verve Human Care Laboratories",
@@ -37,6 +33,7 @@ export default function Accounts() {
   const [search, setSearch] = useState("");
   const [selectedRows, setSelectedRows] = useState([]); // track selected rows
   const [selectAll, setSelectAll] = useState(false); // track header checkbox
+  const [open, setOpen] = useState(false);
 
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
@@ -133,11 +130,157 @@ export default function Accounts() {
         </tbody>
       </table>
       <button
-        onClick={handleFabClick}
+        onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-highlightcolor transition"
       >
         <FaPlus size={20} />
       </button>
+
+        {/* Dialog Overlay */}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          {/* Dialog Box */}
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-5xl p-6">
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              Add Account
+            </h2>
+
+            {/* Form Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium">Description</label>
+                <textarea
+                  placeholder="Description"
+                  className="mt-1 w-full border rounded p-2"
+                ></textarea>
+              </div>
+
+              {/* Logo */}
+              <div>
+                <label className="block text-sm font-medium">Logo</label>
+                <input
+                  type="file"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Data Store Duration */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Data Store Duration (In Seconds)
+                </label>
+                <input
+                  type="number"
+                  placeholder="Data Store Duration"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Address (full width) */}
+              <div className="col-span-2">
+                <label className="block text-sm font-medium">Address</label>
+                <textarea
+                  placeholder="Address"
+                  className="mt-1 w-full border rounded p-2"
+                ></textarea>
+              </div>
+
+              {/* Show Upper On */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Show Upper On
+                </label>
+                <div className="flex gap-4 mt-1">
+                  <label>
+                    <input type="radio" name="show" defaultChecked /> Show
+                  </label>
+                  <label>
+                    <input type="radio" name="show" /> Do Not Show
+                  </label>
+                </div>
+              </div>
+
+              {/* Empty cell for alignment */}
+              <div></div>
+
+              {/* Total Users Allowed */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Total Users Allowed
+                </label>
+                <input
+                  type="number"
+                  placeholder="Total Users Allowed"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Total Devices Allowed */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Total Devices Allowed
+                </label>
+                <input
+                  type="number"
+                  placeholder="Total Devices Allowed"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Total Channels Allowed */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Total Channels Allowed
+                </label>
+                <input
+                  type="number"
+                  placeholder="Total Channels Allowed"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+
+              {/* Total Approval Required */}
+              <div>
+                <label className="block text-sm font-medium">
+                  Total Approval Required
+                </label>
+                <input
+                  type="number"
+                  placeholder="Total Approval Required"
+                  className="mt-1 w-full border rounded p-2"
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-darkgraycolor text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-backgroundcolor text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
