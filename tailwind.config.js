@@ -20,7 +20,7 @@ export default {
         secondary: '#6c757d',      // Gray
         secondary300: '#dee2e6',    // Gray - 300
         secondary600: '#808080',      // Gray - 600
-        backgroundcolor: '#006F59',   // cyan-green 
+        backgroundcolor: '#252E44',   // cyan-green 
         darkgraycolor: '#333',       // Dark Gray
         whitecolor: '#FFFFFF',     // White
         blackcolor: '#000000',     // Black

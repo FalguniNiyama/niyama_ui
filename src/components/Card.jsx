@@ -2,11 +2,11 @@
 export default function Card({ title, value, onClick }) {
     return (
         <div
-            className="bg-primary shadow-md shadow-backgroundcolor rounded-2xl p-4 border transition-all w-1/6"
+            className="bg-backgroundcolor shadow-md shadow-secondary rounded-2xl p-4 border transition-all w-1/6"
             onClick={onClick}
         >
-            <h3 className="text-lg font-semibold mb-2 text-blackcolor">{title}</h3>
-            <div>{value}</div>
+            <h3 className="text-lg font-semibold mb-2 text-whitecolor">{title}</h3>
+            <div className="text-whitecolor">{value}</div>
         </div>
     );
 }
