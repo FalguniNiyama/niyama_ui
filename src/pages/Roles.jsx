@@ -135,7 +135,7 @@ const Roles = () => {
       {/* floating add button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition"
+        className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition"
       >
         <FaPlus size={20} />
       </button>

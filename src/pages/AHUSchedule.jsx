@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 export default function AHUTable() {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState([]); // store selected rows
   const [selectAll, setSelectAll] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const data = [
     {
@@ -94,7 +96,6 @@ export default function AHUTable() {
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full border rounded p-1"
                 />
-                <span className="ml-2">🔍</span>
               </div>
             </td>
           </tr>
@@ -137,6 +138,72 @@ export default function AHUTable() {
           ))}
         </tbody>
       </table>
+
+      <button
+        onClick={() => setOpen(true)}
+        className="fixed bottom-6 right-6 bg-backgroundcolor text-white rounded-full p-4 shadow-lg hover:bg-highlightcolor transition"
+      >
+        <FaPlus size={20} />
+      </button>
+
+      {/* Dialog Overlay */}
+      {open && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          {/* Dialog Box */}
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-4xl p-6">
+            {/* Header */}
+            <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+              Add AHU Schedule
+            </h2>
+
+            <div className="mb-4">
+              <label className="block font-semibold">Room Name</label>
+              <select className="w-full border p-2 rounded">
+                <option>Room Name</option>
+                <option>Room 101</option>
+                <option>Room 102</option>
+              </select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <label className="block font-semibold">
+                  AHU Start Date and Time
+                </label>
+                <input type="datetime-local" className="w-full border p-2 rounded" />
+              </div>
+              <div>
+                <label className="block font-semibold">
+                  AHU Stop Date and Time
+                </label>
+                <input type="datetime-local" className="w-full border p-2 rounded" />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <p className="font-semibold">Account</p>
+              <p>niyama</p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-darkgraycolor text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="px-4 py-2 rounded bg-backgroundcolor text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
